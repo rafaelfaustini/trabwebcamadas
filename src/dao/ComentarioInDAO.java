@@ -16,4 +16,6 @@ public interface ComentarioInDAO {
 	Boolean Atualizar(Comentario _objeto) throws SQLException;
 
 	Comentario buscarPorId(int _id) throws SQLException;
+	
+	List<Comentario> listarComentariosPorCapitulo(int _idCapitulo) throws SQLException;
 }

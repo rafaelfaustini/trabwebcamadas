@@ -16,4 +16,7 @@ public interface CapituloInDAO {
 	Boolean Atualizar(Capitulo _objeto) throws SQLException;
 
 	Capitulo buscarPorId(int _id) throws SQLException;
+	
+	List<Capitulo> listarCapitulosPorHistoria(int _idHistoria) throws SQLException;
+	
 }

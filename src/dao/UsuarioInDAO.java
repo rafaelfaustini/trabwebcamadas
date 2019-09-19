@@ -15,4 +15,5 @@ public interface UsuarioInDAO { // Interface de PessoaDAO
 	Boolean Atualizar(Usuario _objeto) throws SQLException;
 	
 	Usuario buscarPorId(int _id) throws SQLException;
+	
 }

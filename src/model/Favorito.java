@@ -1,7 +1,6 @@
 package model;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 public class Favorito implements Serializable  {
 
@@ -11,7 +10,6 @@ public class Favorito implements Serializable  {
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private Historia historia;
-	private LocalDateTime criado;
 	
 	
 	public Favorito() {
@@ -19,11 +17,10 @@ public class Favorito implements Serializable  {
 	}
 
 
-	public Favorito(int id, Historia historia, LocalDateTime criado) {
+	public Favorito(int id, Historia historia) {
 		super();
 		this.id = id;
 		this.historia = historia;
-		this.criado = criado;
 	}
 
 
@@ -47,21 +44,12 @@ public class Favorito implements Serializable  {
 	}
 
 
-	public LocalDateTime getCriado() {
-		return criado;
-	}
-
-
-	public void setCriado(LocalDateTime criado) {
-		this.criado = criado;
-	}
 
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((criado == null) ? 0 : criado.hashCode());
 		result = prime * result + ((historia == null) ? 0 : historia.hashCode());
 		result = prime * result + id;
 		return result;
@@ -77,11 +65,6 @@ public class Favorito implements Serializable  {
 		if (getClass() != obj.getClass())
 			return false;
 		Favorito other = (Favorito) obj;
-		if (criado == null) {
-			if (other.criado != null)
-				return false;
-		} else if (!criado.equals(other.criado))
-			return false;
 		if (historia == null) {
 			if (other.historia != null)
 				return false;
@@ -95,7 +78,7 @@ public class Favorito implements Serializable  {
 
 	@Override
 	public String toString() {
-		return "Favorito [id=" + id + ", historia=" + historia + ", criado=" + criado + "]";
+		return "Favorito [id=" + id + ", historia=" + historia + "]";
 	}
 
 

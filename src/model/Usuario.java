@@ -13,7 +13,6 @@ public class Usuario implements Serializable {
 	private String email;
 	private String senha;
 	private String displayname;
-	private Boolean ativado;
 	private List<Favorito> favoritos;
 	
 	
@@ -21,10 +20,7 @@ public class Usuario implements Serializable {
 		favoritos = new ArrayList<Favorito>();
 	}
 	
-
-
-
-	public Usuario(int id, String username, String email, String senha, String displayname, Boolean ativado,
+	public Usuario(int id, String username, String email, String senha, String displayname,
 			List<Favorito> favoritos) {
 		super();
 		this.id = id;
@@ -32,9 +28,9 @@ public class Usuario implements Serializable {
 		this.email = email;
 		this.senha = senha;
 		this.displayname = displayname;
-		this.ativado = ativado;
 		this.favoritos = favoritos;
 	}
+
 
 
 
@@ -80,20 +76,13 @@ public class Usuario implements Serializable {
 		this.displayname = displayname;
 	}
 
-	public Boolean getAtivado() {
-		return ativado;
-	}
 
-	public void setAtivado(Boolean ativado) {
-		this.ativado = ativado;
-	}
 
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((ativado == null) ? 0 : ativado.hashCode());
 		result = prime * result + ((displayname == null) ? 0 : displayname.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + id;
@@ -111,11 +100,6 @@ public class Usuario implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Usuario other = (Usuario) obj;
-		if (ativado == null) {
-			if (other.ativado != null)
-				return false;
-		} else if (!ativado.equals(other.ativado))
-			return false;
 		if (displayname == null) {
 			if (other.displayname != null)
 				return false;
@@ -144,7 +128,7 @@ public class Usuario implements Serializable {
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", username=" + username + ", email=" + email + ", senha=" + senha
-				+ ", displayname=" + displayname + ", ativado=" + ativado + ", enderecos=" + "]";
+				+ ", displayname=" + displayname + ", enderecos=" + "]";
 	}
 	
 	

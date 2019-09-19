@@ -5,27 +5,9 @@ create table usuario (
   senha varchar(255) NOT NULL,
   displayname varchar(255) NOT NULL,
   criado DATETIME DEFAULT CURRENT_TIMESTAMP,
-  atualizado DATETIME ON UPDATE CURRENT_TIMESTAMP,
-  ativado tinyint(1) DEFAULT 0
+  atualizado DATETIME ON UPDATE CURRENT_TIMESTAMP
 );
 
-create table favorito (
-id int Primary Key Auto_Increment,
-id_usuario int not null,
-id_historia int not null,
-Foreign Key (id_usuario) references usuario(id),
-Foreign Key (id_historia) references historia(id)
-);
-
-create table comentario(
-  id int Primary Key Auto_Increment,
-  texto text,
-  criado DATETIME DEFAULT CURRENT_TIMESTAMP,
-  id_usuario int not null,
-  id_capitulo int not null,
-  Foreign Key(id_usuario) references usuario(id),
-  Foreign Key(id_capitulo) references capitulo(id)
-);
 
 create table historia(
   id int Primary Key Auto_Increment,
@@ -37,6 +19,15 @@ create table historia(
   Foreign Key(autor) references usuario(id)
 );
 
+
+create table favorito (
+id int Primary Key Auto_Increment,
+id_usuario int not null,
+id_historia int not null,
+Foreign Key (id_usuario) references usuario(id),
+Foreign Key (id_historia) references historia(id)
+);
+
 create table capitulo(
   id int Primary Key Auto_Increment,
   historia int not null,
@@ -46,3 +37,15 @@ create table capitulo(
   titulo varchar(100) not null,
   Foreign Key(historia) references historia(id)
 );
+
+
+create table comentario(
+  id int Primary Key Auto_Increment,
+  texto text,
+  criado DATETIME DEFAULT CURRENT_TIMESTAMP,
+  id_usuario int not null,
+  id_capitulo int not null,
+  Foreign Key(id_usuario) references usuario(id),
+  Foreign Key(id_capitulo) references capitulo(id)
+);
+
