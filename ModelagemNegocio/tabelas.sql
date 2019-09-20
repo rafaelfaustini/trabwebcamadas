@@ -26,6 +26,7 @@ id_usuario int not null,
 id_historia int not null,
 Foreign Key (id_usuario) references usuario(id),
 Foreign Key (id_historia) references historia(id)
+ON DELETE CASCADE
 );
 
 create table capitulo(
@@ -36,6 +37,7 @@ create table capitulo(
   texto text not null,
   titulo varchar(100) not null,
   Foreign Key(historia) references historia(id)
+  ON DELETE CASCADE
 );
 
 

@@ -8,15 +8,9 @@ import model.Favorito;
 
 
 public interface FavoritoInDAO {
-	void Inserir(Favorito objeto) throws SQLException;
+	void Inserir(Favorito objeto, int _idUsuario) throws SQLException;
 
-	List<Favorito> listarTodos() throws SQLException;
-
-	Boolean Excluir(int _id) throws SQLException;
-
-	Boolean Atualizar(Favorito _objeto) throws SQLException;
-
-	Favorito buscarPorId(int _id) throws SQLException;
+	Boolean Excluir(int _idHistoria, int idUsuario) throws SQLException;
 	
 	List<Favorito> listarFavoritosPorUsuario(int _idUsuario) throws SQLException;
 

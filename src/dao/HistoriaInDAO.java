@@ -18,5 +18,5 @@ public interface HistoriaInDAO {
 
 	Historia buscarPorId(int _id) throws SQLException;
 	
-	List<Comentario> listarHistoriaPorUsuario(int _idUsuario) throws SQLException;
+	List<Historia> listarHistoriaPorUsuario(int _idUsuario) throws SQLException;
 }

@@ -23,33 +23,33 @@ public class FavoritoDAO implements FavoritoInDAO {
 
 	
 	@Override
-	public void Inserir(Favorito objeto) throws SQLException {
-		// TODO Auto-generated method stub
+	public void Inserir(Favorito objeto, int _idUsuario) throws SQLException {
+
+		String SQL = "insert into favorito (id_usuario, id_historia) values (?, ?)";
+		
+		PreparedStatement ps = this.conexao.prepareStatement(SQL);
+		
+		ps.setInt(1, objeto.getId());
+		ps.setInt(2, _idUsuario);
+		
+		ps.execute();
 
 	}
 
 	@Override
-	public List<Favorito> listarTodos() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public Boolean Excluir(int _idHistoria, int _idUsuario) throws SQLException {
+		boolean rs = false;
+		
+		String SQL = "delete from favorito where id_usuario=? and id_historia=?";
+				
+		PreparedStatement ps = this.conexao.prepareStatement(SQL);
+		
+		ps.setInt(1, _idHistoria);
+		ps.setInt(2, _idUsuario);
 
-	@Override
-	public Boolean Excluir(int _id) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Boolean Atualizar(Favorito _objeto) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Favorito buscarPorId(int _id) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		rs = ps.execute();
+		return rs; 
 	}
 
 	@Override

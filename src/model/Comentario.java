@@ -13,6 +13,7 @@ public class Comentario implements Serializable  {
 	private String texto;
 	private LocalDateTime criado;
 	private Usuario autor;
+	private Capitulo capitulo;
 	
 	
 	public Comentario() {
@@ -20,12 +21,23 @@ public class Comentario implements Serializable  {
 	}
 
 
-	public Comentario(int id, String texto, LocalDateTime criado, Usuario autor) {
+	public Comentario(int id, String texto, LocalDateTime criado, Usuario autor, Capitulo capitulo) {
 		super();
 		this.id = id;
 		this.texto = texto;
 		this.criado = criado;
 		this.autor = autor;
+	}
+
+	
+
+	public Capitulo getCapitulo() {
+		return capitulo;
+	}
+
+
+	public void setCapitulo(Capitulo capitulo) {
+		this.capitulo = capitulo;
 	}
 
 
@@ -74,6 +86,7 @@ public class Comentario implements Serializable  {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((autor == null) ? 0 : autor.hashCode());
+		result = prime * result + ((capitulo == null) ? 0 : capitulo.hashCode());
 		result = prime * result + ((criado == null) ? 0 : criado.hashCode());
 		result = prime * result + id;
 		result = prime * result + ((texto == null) ? 0 : texto.hashCode());
@@ -94,6 +107,11 @@ public class Comentario implements Serializable  {
 			if (other.autor != null)
 				return false;
 		} else if (!autor.equals(other.autor))
+			return false;
+		if (capitulo == null) {
+			if (other.capitulo != null)
+				return false;
+		} else if (!capitulo.equals(other.capitulo))
 			return false;
 		if (criado == null) {
 			if (other.criado != null)

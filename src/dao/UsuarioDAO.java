@@ -39,7 +39,7 @@ public class UsuarioDAO implements UsuarioInDAO {
 		List<Usuario> usuarios = new ArrayList<Usuario>();
 		ResultSet rs = null;
 		
-		String SQL = "select id, username, senha, displayname from Usuario";
+		String SQL = "select id, username, senha, displayname from usuario";
 				
 		PreparedStatement ps = this.conexao.prepareStatement(SQL);
 		
