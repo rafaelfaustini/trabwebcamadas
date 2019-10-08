@@ -21,12 +21,12 @@ create table historia(
 
 
 create table favorito (
-id int Primary Key Auto_Increment,
-id_usuario int not null,
-id_historia int not null,
-Foreign Key (id_usuario) references usuario(id),
-Foreign Key (id_historia) references historia(id)
-ON DELETE CASCADE
+  id_usuario int,
+  id_historia int,
+  Primary Key(id_usuario, id_historia),
+  Foreign Key (id_usuario) references usuario(id),
+  Foreign Key (id_historia) references historia(id)
+  ON DELETE CASCADE
 );
 
 create table capitulo(
@@ -50,4 +50,3 @@ create table comentario(
   Foreign Key(id_usuario) references usuario(id),
   Foreign Key(id_capitulo) references capitulo(id)
 );
-
