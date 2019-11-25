@@ -21,7 +21,7 @@ public class UsuarioDAO implements UsuarioInDAO {
 	@Override
 	public void Inserir(Usuario objeto) throws SQLException {
 
-		String SQL = "insert into usuario (username, email, senha, displayname, ativado) values (?, ?, ?, ?, ?)";
+		String SQL = "insert into usuario (username, email, senha, displayname) values (?, ?, ?, ?)";
 		
 		PreparedStatement ps = this.conexao.prepareStatement(SQL);
 		
@@ -39,7 +39,7 @@ public class UsuarioDAO implements UsuarioInDAO {
 		List<Usuario> usuarios = new ArrayList<Usuario>();
 		ResultSet rs = null;
 		
-		String SQL = "select id, username, senha, displayname from usuario";
+		String SQL = "select id, username, email, senha, displayname from usuario";
 				
 		PreparedStatement ps = this.conexao.prepareStatement(SQL);
 		
@@ -91,6 +91,8 @@ public class UsuarioDAO implements UsuarioInDAO {
 		ps.setString(2, _objeto.getEmail());
 		ps.setString(3, _objeto.getSenha());
 		ps.setString(4, _objeto.getDisplayname());
+		ps.setInt(5, _objeto.getId());
+
 		
 		rs = ps.execute();
 		
@@ -101,7 +103,7 @@ public class UsuarioDAO implements UsuarioInDAO {
 	public Usuario buscarPorId(int _id) throws SQLException {
 		ResultSet rs = null;
 		
-		String SQL = "Select * from usuario where id=?"; 
+		String SQL = "Select id,username,email,senha,displayname from usuario where id=?"; 
 				
 		PreparedStatement ps = this.conexao.prepareStatement(SQL);
 		

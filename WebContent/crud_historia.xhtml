@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/template.xhtml"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+	<ui:define name="cabecalho">
+		<ui:include src="/templates/cabecalho.xhtml" />
+	</ui:define>
+	
+	<ui:define name="menu">
+	    <ui:include src="/templates/menu.xhtml" />
+	</ui:define>
+	
+	<ui:define name="conteudo">
+		
+		<h:form id="formTabela">
+			<p:dataTable id="tabelaHistorias" var="historia" value="#{historiaBean.historias}" 
+			 		rows="10"
+		            paginator="true"
+		            rowsPerPageTemplate="5,10,15" 
+		            emptyMessage="Nenhuma historia cadastrada no banco de dados" >
+
+			    <p:column headerText="Id">
+			        <h:outputText value="#{historia.id}" />
+			    </p:column>
+			 
+			    <p:column headerText="autor">
+			        <h:outputText value="#{historia.autor.username}" />
+			    </p:column>
+			 
+			 	<p:column headerText="Terminada">
+			        <h:outputText value="#{historia.terminada}" />
+			    </p:column>
+			 
+			    <p:column headerText="Titulo">
+			        <h:outputText value="#{historia.titulo}" />
+			    </p:column>
+			    
+			    <p:column headerText="Sinopse">
+			        <h:outputText value="#{historia.sinopse}" />
+			    </p:column>			    
+			    <p:column headerText="*">
+		            
+		            
+		            <p:commandButton value="Editar"	action="#{historiaBean.Editar(historia)}"
+			    		onclick="PF('dlgEditarHistoria').show();"
+			    		update=":formEditarHistoria" />
+		            	
+		            <p:commandButton icon="ui-icon-trash" actionListener="#{historiaBean.PrepararExcluir}"
+		            	value="Excluir" 
+		            	onclick="PF('dlgExcluirHistoria').show();"
+			    		update="dlgEx" />
+			    		
+		        </p:column>
+		        
+		        <f:facet name="footer">
+			    	<p:commandButton value="Novo Historia" actionListener="#{historiaBean.Limpar()}" 
+			    	oncomplete="PF('dlgCadastrarHistoria').show();"
+			    	update=":fCadastrar:pgCadastrar" />
+			    </f:facet>
+		        
+			</p:dataTable>
+		</h:form>
+		
+		<br />
+		
+		<h:panelGroup id="painelCadastro" rendered="#{!historiaBean.editando}" >
+			<h3>Add Historia</h3>
+			<h:form>
+			
+        			
+        	<p:outputLabel for="@next" value="Autor: " />
+        		<p:selectOneMenu id="city" value="#{historiaBean.historia.autor}" effect="fold" >
+            		<f:selectItem itemLabel="Selecione" itemValue="" />
+            		<f:selectItems value="#{historiaBean.getUsuarios()}" />
+        		</p:selectOneMenu>
+        			
+				<p>Titulo: <p:inputText value="#{historiaBean.historia.titulo}" /></p>
+				<p>Sinopse: <p:inputText value="#{historiaBean.historia.sinopse}" /></p>
+				<p>
+					<p:commandButton value="Add" action="#{historiaBean.Adicionar}" 
+						update=":formTabela" />
+						
+					<p:commandButton value="Limpar" action="#{historiaBean.Limpar}" />
+				</p>
+			</h:form>
+		</h:panelGroup>
+		
+		<p:dialog header="Cadastrar Historia" widgetVar="dlgCadastrarHistoria" modal="true"
+			showEffect="blind" hideEffect="explode" resizable="false" appendTo="@(body)">
+	       
+	        <h:form id="fCadastrar" >
+		        
+		        <p:outputPanel id="painelEditarHistoria" style="text-align:center;">
+		            
+		            <p:panelGrid id="pgCadastrar" columns="2" columnClasses="label,value">
+		               
+		                <h:outputText value="Id:" />
+		                <h:outputText value="#{historiaBean.historia.id}" />
+		 
+		                <h:outputText value="Titulo" />
+		                <p:inputText value="#{historiaBean.historia.titulo}" />
+		 		 
+		                <h:outputText value="Sinopse" />
+		                <h:outputText value="#{historiaBean.historia.sinopse}" />
+		 
+
+		                
+		            </p:panelGrid>
+		            
+		            <h:panelGrid columns="2">
+				
+						<p:commandButton value="Cadastrar" oncomplete="PF('dlgCadastrarHistoria').hide();" 
+							actionListener="#{historiaBean.Adicionar()}" 
+							update=":formTabela:tabelaHistorias :msgGlobal"/>
+					
+						<p:commandButton value="Cancel" onclick="PF('dlgCadastrarHistoria').hide();" />
+					
+					</h:panelGrid>
+		            
+		        </p:outputPanel>
+		        
+	        </h:form>
+	        
+    	</p:dialog>
+		
+		<p:dialog header="Editar Historia" widgetVar="dlgEditarHistoria" modal="true"
+			showEffect="blind" hideEffect="explode" resizable="false" appendTo="@(body)">
+	       
+	        <h:form id="formEditarHistoria" >
+		        
+		        <p:outputPanel id="painelEditarHistoria" style="text-align:center;">
+		            
+		            <p:panelGrid  columns="2" columnClasses="label,value">
+		               
+		                <h:outputText value="Id:" />
+		                <h:outputText value="#{historiaBean.historia.id}" />
+		                
+		                <p:column headerText="autor">
+			        		<h:outputText value="#{historia.autor.username}" />
+			   			</p:column>
+		 
+		                <h:outputText value="Terminada" />
+		                <p:inputText value="#{historiaBean.historia.terminada}" />
+		 		 
+		                <h:outputText value="Titulo" />
+		                <p:inputText value="#{historiaBean.historia.titulo}" />
+		 
+		                <h:outputText value="Sinopse" />
+		                <p:inputText value="#{historiaBean.historia.sinopse}" />
+		                
+		                
+		            </p:panelGrid>
+		            
+		            <h:panelGrid columns="2">
+				
+						<p:commandButton value="Salvar Edição" oncomplete="PF('dlgEditarHistoria').hide();" 
+							actionListener="#{historiaBean.SalvarEdicao()}" 
+							update=":formTabela:tabelaHistorias :msgGlobal"/>
+					
+						<p:commandButton value="Cancel" onclick="PF('dlgEditarHistoria').hide();" />
+					
+					</h:panelGrid>
+		            
+		        </p:outputPanel>
+		        
+	        </h:form>
+	        
+    	</p:dialog>
+    	
+    	<p:dialog id="dlgEx" header="Excluir Historia" widgetVar="dlgExcluirHistoria" modal="true"
+			showEffect="blind" hideEffect="explode" resizable="false" appendTo="@(body)">
+	       
+	        <h:form id="formExcluirHistoria" >
+		        
+		        <p:outputPanel id="painelEditarHistoria" style="text-align:center;">
+		            
+		            <p:panelGrid  columns="2" columnClasses="label,value">
+		               
+		                <h:outputText value="Id:" />
+		                <h:outputText value="#{historiaBean.historia.id}" />
+		                
+		                <h:outputText value="Autor:" />
+		                <h:outputText value="#{historiaBean.historia.autor.username}" />
+		 
+		                <h:outputText value="Terminada" />
+		                <h:outputText value="#{historiaBean.historia.terminada}" />
+		 
+		                <h:outputText value="Titulo" />
+		                <h:outputText value="#{historiaBean.historia.titulo}" />
+		 
+		                <h:outputText value="Sinopse" />
+		                <h:outputText value="#{historiaBean.historia.sinopse}" />
+		                
+		            </p:panelGrid>
+		            
+		            <h:panelGrid columns="2">
+				
+						<p:commandButton value="Excluir" oncomplete="PF('dlgExcluirHistoria').hide();" 
+							actionListener="#{historiaBean.Excluir()}" 
+							update=":formTabela:tabelaHistorias :msgGlobal"/>
+					
+						<p:commandButton value="Cancel" onclick="PF('dlgExcluirHistoria').hide();" />
+					
+					</h:panelGrid>
+		            
+		        </p:outputPanel>
+		        
+	        </h:form>
+	        
+    	</p:dialog>
+	
+		
+	</ui:define>
+	
+	<ui:define name="rodape">
+	   <ui:include src="/templates/rodape.xhtml" />
+	</ui:define>
+
+</ui:composition>

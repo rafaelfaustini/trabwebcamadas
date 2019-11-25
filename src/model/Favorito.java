@@ -43,7 +43,18 @@ public class Favorito implements Serializable  {
 		this.historia = historia;
 	}
 
+	@Override
+	public Favorito clone() {
+		return new Favorito(this.id, this.historia);
+	}
 
+
+	public void restaurarFavorito(Favorito _favorito) {
+		
+		this.id = _favorito.id;
+		this.historia = _favorito.historia;
+		
+	}
 
 
 	@Override

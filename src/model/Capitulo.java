@@ -99,6 +99,23 @@ public class Capitulo implements Serializable  {
 		this.titulo = titulo;
 	}
 
+	@Override
+	public Capitulo clone() {
+		return new Capitulo(this.id, this.historia, this.observacoes, this.ordem, this.texto, this.titulo, this.comentarios);
+	}
+
+
+	public void restaurarCapitulo(Capitulo _capitulo) {
+		
+		this.id = _capitulo.getId();
+		this.historia = _capitulo.getHistoria();
+		this.observacoes = _capitulo.getObservacoes();
+		this.ordem = _capitulo.getOrdem();
+		this.texto = _capitulo.getTexto();
+		this.titulo = _capitulo.getTitulo();
+		this.comentarios = _capitulo.comentarios;
+		
+	}
 
 	@Override
 	public int hashCode() {

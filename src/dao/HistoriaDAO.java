@@ -39,7 +39,7 @@ public class HistoriaDAO implements HistoriaInDAO {
 		List<Historia> historias = new ArrayList<Historia>();
 		ResultSet rs = null;
 		
-		String SQL = "select autor, terminada, data, titulo, sinopse from historia";
+		String SQL = "select id, autor, terminada, titulo, sinopse from historia";
 				
 		PreparedStatement ps = this.conexao.prepareStatement(SQL);
 		
@@ -51,11 +51,10 @@ public class HistoriaDAO implements HistoriaInDAO {
 			
 			Usuario autor = dao.buscarPorId(rs.getInt(2));
 			Boolean terminada = rs.getBoolean(3);
-			LocalDateTime data = rs.getTimestamp(4).toLocalDateTime();
-			String titulo = rs.getString(5);
-			String sinopse = rs.getString(6);
+			String titulo = rs.getString(4);
+			String sinopse = rs.getString(5);
 			
-			Historia h = new Historia(id, autor, terminada, data, titulo, sinopse);
+			Historia h = new Historia(id, autor, terminada, null, titulo, sinopse);
 			
 			historias.add(h);
 		}

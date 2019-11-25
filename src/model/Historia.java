@@ -83,6 +83,21 @@ public class Historia implements Serializable {
 		this.sinopse = sinopse;
 	}
 
+	@Override
+	public Historia clone() {
+		return new Historia(this.id, this.autor, this.terminada, this.data, this.titulo, this.sinopse);
+	}
+
+
+	public void restaurarHistoria(Historia _historia) {
+		
+		this.id = _historia.id;
+		this.autor = _historia.autor;
+		this.terminada = _historia.terminada;
+		this.data = _historia.data;
+		this.titulo = _historia.titulo;
+		this.sinopse = _historia.sinopse;
+	}
 
 
 	@Override
@@ -140,7 +155,7 @@ public class Historia implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Historia [id=" + id + ", autor=" + autor + ", terminada=" + terminada + ", data=" + data + ", titulo="
+		return "Historia [id=" + id + ", autor=" + autor + ", terminada=" + terminada + ", titulo="
 				+ titulo + ", sinopse=" + sinopse + "]";
 	}
 	

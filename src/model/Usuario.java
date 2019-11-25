@@ -76,8 +76,20 @@ public class Usuario implements Serializable {
 		this.displayname = displayname;
 	}
 
+	@Override
+	public Usuario clone() {
+		return new Usuario(this.id, this.username, this.email, this.senha, this.displayname, this.favoritos);
+	}
 
 
+	public void restaurarUsuario(Usuario _usuario) {
+		
+		this.id = _usuario.id;
+		this.username = _usuario.username;
+		this.email = _usuario.email;
+		this.senha = _usuario.senha;
+		this.displayname = _usuario.displayname;
+	}
 
 	@Override
 	public int hashCode() {
@@ -127,8 +139,7 @@ public class Usuario implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + ", username=" + username + ", email=" + email + ", senha=" + senha
-				+ ", displayname=" + displayname + ", enderecos=" + "]";
+		return username;
 	}
 	
 	

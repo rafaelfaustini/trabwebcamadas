@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/template.xhtml"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+	<ui:define name="cabecalho">
+		<ui:include src="/templates/cabecalho.xhtml" />
+	</ui:define>
+	
+	<ui:define name="menu">
+	    <ui:include src="/templates/menu.xhtml" />
+	</ui:define>
+	
+	<ui:define name="conteudo">
+		
+		<h:form id="formTabela">
+			<p:dataTable id="tabelaUsuarios" var="usuario" value="#{usuarioBean.usuarios}" 
+			 		rows="10"
+		            paginator="true"
+		            rowsPerPageTemplate="5,10,15" 
+		            emptyMessage="Nenhuma usuario cadastrada no banco de dados" >
+		            
+			    <p:column headerText="Id">
+			        <h:outputText value="#{usuario.id}" />
+			    </p:column>
+			 
+			    <p:column headerText="Nome">
+			        <h:outputText value="#{usuario.displayname}" />
+			    </p:column>
+			 
+			 	<p:column headerText="Username">
+			        <h:outputText value="#{usuario.username}" />
+			    </p:column>
+			    <p:column headerText="Email">
+			        <h:outputText value="#{usuario.email}" />
+			    </p:column>
+			 
+			    <p:column headerText="Senha">
+			        <h:outputText value="#{usuario.senha}" />
+			    </p:column>
+			    
+			    <p:column headerText="*">
+		            
+		            
+		            <p:commandButton value="Editar"	action="#{usuarioBean.Editar(usuario)}"
+			    		onclick="PF('dlgEditarUsuario').show();"
+			    		update=":formEditarUsuario" />
+		            	
+		            <p:commandButton icon="ui-icon-trash" actionListener="#{usuarioBean.PrepararExcluir}"
+		            	value="Excluir" 
+		            	onclick="PF('dlgExcluirUsuario').show();"
+			    		update="dlgEx" />
+			    		
+		        </p:column>
+		        
+		        <f:facet name="footer">
+			    	<p:commandButton value="Novo Usuario" actionListener="#{usuarioBean.Limpar()}" 
+			    	oncomplete="PF('dlgCadastrarUsuario').show();"
+			    	update=":fCadastrar:pgCadastrar" />
+			    </f:facet>
+		        
+			</p:dataTable>
+		</h:form>
+		
+		<br />
+		
+		<h:panelGroup id="painelCadastro" rendered="#{!usuarioBean.editando}" >
+			<h3>Add Usuario</h3>
+			<h:form>
+				<p>Username: <p:inputText value="#{usuarioBean.usuario.username}" /></p>
+				<p>Nome: <p:inputText value="#{usuarioBean.usuario.displayname}" /></p>
+				<p>E-mail: <p:inputText value="#{usuarioBean.usuario.email}" /></p>
+				<p>Senha: <p:inputText value="#{usuarioBean.usuario.senha}" /></p>
+				<p>
+					<p:commandButton value="Add" action="#{usuarioBean.Adicionar}" 
+						update=":formTabela" />
+						
+					<p:commandButton value="Limpar" action="#{usuarioBean.Limpar}" />
+				</p>
+			</h:form>
+		</h:panelGroup>
+		
+		<p:dialog header="Cadastrar Usuario" widgetVar="dlgCadastrarUsuario" modal="true"
+			showEffect="blind" hideEffect="explode" resizable="false" appendTo="@(body)">
+	       
+	        <h:form id="fCadastrar" >
+		        
+		        <p:outputPanel id="painelEditarUsuario" style="text-align:center;">
+		            
+		            <p:panelGrid id="pgCadastrar" columns="2" columnClasses="label,value">
+		               
+		                <h:outputText value="Id:" />
+		                <h:outputText value="#{usuarioBean.usuario.id}" />
+		 
+		                <h:outputText value="Username" />
+		                <p:inputText value="#{usuarioBean.usuario.username}" />
+		 		 
+		                <h:outputText value="Nome" />
+		                <p:inputText value="#{usuarioBean.usuario.displayname}" />
+		 
+		                <h:outputText value="E-mail" />
+		                <p:inputText value="#{usuarioBean.usuario.email}" />
+		 
+		                <h:outputText value="Senha" />
+		                <p:inputText value="#{usuarioBean.usuario.senha}" />   
+		                
+		            </p:panelGrid>
+		            
+		            <h:panelGrid columns="2">
+				
+						<p:commandButton value="Cadastrar" oncomplete="PF('dlgCadastrarUsuario').hide();" 
+							actionListener="#{usuarioBean.Adicionar()}" 
+							update=":formTabela:tabelaUsuarios :msgGlobal"/>
+					
+						<p:commandButton value="Cancel" onclick="PF('dlgCadastrarUsuario').hide();" />
+					
+					</h:panelGrid>
+		            
+		        </p:outputPanel>
+		        
+	        </h:form>
+	        
+    	</p:dialog>
+		
+		<p:dialog header="Editar Usuario" widgetVar="dlgEditarUsuario" modal="true"
+			showEffect="blind" hideEffect="explode" resizable="false" appendTo="@(body)">
+	       
+	        <h:form id="formEditarUsuario" >
+		        
+		        <p:outputPanel id="painelEditarUsuario" style="text-align:center;">
+		            
+		            <p:panelGrid  columns="2" columnClasses="label,value">
+		               
+		                <h:outputText value="Id:" />
+		                <h:outputText value="#{usuarioBean.usuario.id}" />
+		 
+		                <h:outputText value="Username" />
+		                <p:inputText value="#{usuarioBean.usuario.username}" />
+		 		 
+		                <h:outputText value="Nome" />
+		                <p:inputText value="#{usuarioBean.usuario.displayname}" />
+		 
+		                <h:outputText value="E-mail" />
+		                <p:inputText value="#{usuarioBean.usuario.email}" />
+		 
+		                <h:outputText value="Senha" />
+		                <p:inputText value="#{usuarioBean.usuario.senha}" />
+		                
+		                
+		            </p:panelGrid>
+		            
+		            <h:panelGrid columns="2">
+				
+						<p:commandButton value="Salvar Edição" oncomplete="PF('dlgEditarUsuario').hide();" 
+							actionListener="#{usuarioBean.SalvarEdicao()}" 
+							update=":formTabela:tabelaUsuarios :msgGlobal"/>
+					
+						<p:commandButton value="Cancel" onclick="PF('dlgEditarUsuario').hide();" />
+					
+					</h:panelGrid>
+		            
+		        </p:outputPanel>
+		        
+	        </h:form>
+	        
+    	</p:dialog>
+    	
+    	<p:dialog id="dlgEx" header="Excluir Usuario" widgetVar="dlgExcluirUsuario" modal="true"
+			showEffect="blind" hideEffect="explode" resizable="false" appendTo="@(body)">
+	       
+	        <h:form id="formExcluirUsuario" >
+		        
+		        <p:outputPanel id="painelEditarUsuario" style="text-align:center;">
+		            
+		            <p:panelGrid  columns="2" columnClasses="label,value">
+		               
+		                <h:outputText value="Id:" />
+		                <h:outputText value="#{usuarioBean.usuario.id}" />
+		                
+		                <h:outputText value="Username:" />
+		                <h:outputText value="#{usuarioBean.usuario.username}" />
+		 
+		                <h:outputText value="Nome" />
+		                <h:outputText value="#{usuarioBean.usuario.displayname}" />
+		 
+		                <h:outputText value="E-mail" />
+		                <h:outputText value="#{usuarioBean.usuario.email}" />
+		 
+		                <h:outputText value="Senha" />
+		                <h:outputText value="#{usuarioBean.usuario.senha}" />
+		                
+		            </p:panelGrid>
+		            
+		            <h:panelGrid columns="2">
+				
+						<p:commandButton value="Excluir" oncomplete="PF('dlgExcluirUsuario').hide();" 
+							actionListener="#{usuarioBean.Excluir()}" 
+							update=":formTabela:tabelaUsuarios :msgGlobal"/>
+					
+						<p:commandButton value="Cancel" onclick="PF('dlgExcluirUsuario').hide();" />
+					
+					</h:panelGrid>
+		            
+		        </p:outputPanel>
+		        
+	        </h:form>
+	        
+    	</p:dialog>
+	
+		
+	</ui:define>
+	
+	<ui:define name="rodape">
+	   <ui:include src="/templates/rodape.xhtml" />
+	</ui:define>
+
+</ui:composition>

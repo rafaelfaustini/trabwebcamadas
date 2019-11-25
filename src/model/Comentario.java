@@ -79,6 +79,21 @@ public class Comentario implements Serializable  {
 	public void setAutor(Usuario autor) {
 		this.autor = autor;
 	}
+	@Override
+	public Comentario clone() {
+		return new Comentario(this.id, this.texto, this.criado, this.autor, this.capitulo);
+	}
+
+
+	public void restaurarComentario(Comentario _comentario) {
+		
+		this.id = _comentario.id;
+		this.texto = _comentario.texto;
+		this.criado = _comentario.criado;
+		this.autor = _comentario.autor;
+		this.capitulo = _comentario.capitulo;
+		
+	}
 
 
 	@Override
