@@ -20,7 +20,6 @@ public class FavoritoDAO implements FavoritoInDAO {
 	public FavoritoDAO(Connection _conn) {
 		this.conexao = _conn;
 	}
-
 	
 	@Override
 	public void Inserir(Favorito objeto, int _idUsuario) throws SQLException {
@@ -29,13 +28,13 @@ public class FavoritoDAO implements FavoritoInDAO {
 		
 		PreparedStatement ps = this.conexao.prepareStatement(SQL);
 		
-		ps.setInt(1, objeto.getId());
-		ps.setInt(2, _idUsuario);
+		ps.setInt(1, _idUsuario);
+		ps.setInt(2, objeto.getHistoria().getId());
 		
 		ps.execute();
 
 	}
-
+	
 	@Override
 	public Boolean Excluir(int _idHistoria, int _idUsuario) throws SQLException {
 		boolean rs = false;
@@ -80,9 +79,9 @@ public class FavoritoDAO implements FavoritoInDAO {
 			
 			Usuario usuario = dao.buscarPorId(_idUsuario);
 			
-			Historia historia = new Historia(id, autor, terminada, data, titulo, sinopse);
+			Historia historia = new Historia(id, autor, terminada, data, titulo, sinopse);			
 			
-			Favorito fav = new Favorito(id, historia);
+			Favorito fav = new Favorito(usuario, historia);
 			
 			favoritos.add(fav);
 		}

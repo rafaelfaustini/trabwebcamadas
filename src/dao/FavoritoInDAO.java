@@ -13,5 +13,4 @@ public interface FavoritoInDAO {
 	Boolean Excluir(int _idHistoria, int idUsuario) throws SQLException;
 	
 	List<Favorito> listarFavoritosPorUsuario(int _idUsuario) throws SQLException;
-
 }

@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/template.xhtml"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+	<ui:define name="cabecalho">
+		<ui:include src="/templates/cabecalho.xhtml" />
+	</ui:define>
+	
+	<ui:define name="menu">
+	    <ui:include src="/templates/menu.xhtml" />
+	</ui:define>
+	
+	<ui:define name="conteudo">
+		
+		<h:form id="formTabela">
+			<p:dataTable id="tabelaFavoritos" var="favorito" value="#{favoritoBean.favoritos}" 
+			 		rows="10"
+		            paginator="true"
+		            rowsPerPageTemplate="5,10,15" 
+		            emptyMessage="Nenhuma favorito cadastrada no banco de dados" >
+
+			    <p:column headerText="Historia">
+			        <h:outputText value="#{favorito.historia}" />
+			    </p:column>
+			 
+			 	<p:column headerText="Usuario">
+			        <h:outputText value="#{favorito.usuario}" />
+			    </p:column>
+				    
+			    <p:column headerText="*">
+		            
+		            	
+		            <p:commandButton icon="ui-icon-trash" actionListener="#{favoritoBean.PrepararExcluir}"
+		            	value="Excluir" 
+		            	onclick="PF('dlgExcluirFavorito').show();"
+			    		update="dlgEx" />
+			    		
+		        </p:column>
+		        
+		        <f:facet name="footer">
+			    	<p:commandButton value="Novo Favorito" actionListener="#{favoritoBean.Limpar()}" 
+			    	oncomplete="PF('dlgCadastrarFavorito').show();"
+			    	update=":fCadastrar:pgCadastrar" />
+			    </f:facet>
+		        
+			</p:dataTable>
+		</h:form>
+		
+		<br />
+		
+		<h:panelGroup id="painelCadastro" rendered="#{!favoritoBean.editando}" >
+			<h3>Add Favorito</h3>
+			<h:form>
+			
+        			
+        	<p:outputLabel for="@next" value="Historia: " />
+        		<p:selectOneMenu id="historia" value="#{favoritoBean.favorito.historia}" effect="fold" >
+            		<f:selectItem itemLabel="Selecione" itemValue="" /> 
+            		<f:selectItems value="#{favoritoBean.getHistorias()}" />
+        		</p:selectOneMenu><br><br></br></br>
+        		
+        	<p:outputLabel for="@next" value="Usuario: " />
+        		<p:selectOneMenu id="usuario" value="#{favoritoBean.favorito.id}" effect="fold" >
+            		<f:selectItem itemLabel="Selecione" itemValue="" /> 
+            		<f:selectItems value="#{favoritoBean.getUsuarios()}" />
+        		</p:selectOneMenu>        		
+        						
+				<p>
+					<p:commandButton value="Add" action="#{favoritoBean.Adicionar}" 
+						update=":formTabela" />
+						
+					<p:commandButton value="Limpar" action="#{favoritoBean.Limpar}" />
+				</p>
+			</h:form>
+		</h:panelGroup>
+		
+		<p:dialog header="Cadastrar Favorito" widgetVar="dlgCadastrarFavorito" modal="true"
+			showEffect="blind" hideEffect="explode" resizable="false" appendTo="@(body)">
+	       
+	        <h:form id="fCadastrar" >
+		        
+		        <p:outputPanel id="painelEditarFavorito" style="text-align:center;">
+		            
+		            <p:panelGrid id="pgCadastrar" columns="2" columnClasses="label,value">
+		               
+		                <h:outputText value="Usuario:" />
+		                <h:outputText value="#{favoritoBean.favorito.id}" />
+		 
+		 		        <h:outputText value="História" />
+		                <h:outputText value="#{favoritoBean.favorito.historia}" />
+
+		            </p:panelGrid>
+		            
+		            <h:panelGrid columns="2">
+				
+						<p:commandButton value="Cadastrar" oncomplete="PF('dlgCadastrarFavorito').hide();" 
+							actionListener="#{favoritoBean.Adicionar()}" 
+							update=":formTabela:tabelaFavoritos :msgGlobal"/>
+					
+						<p:commandButton value="Cancel" onclick="PF('dlgCadastrarFavorito').hide();" />
+					
+					</h:panelGrid>
+		            
+		        </p:outputPanel>
+		        
+	        </h:form>
+	        
+    	</p:dialog>
+		
+    	
+    	<p:dialog id="dlgEx" header="Excluir Favorito" widgetVar="dlgExcluirFavorito" modal="true"
+			showEffect="blind" hideEffect="explode" resizable="false" appendTo="@(body)">
+	       
+	        <h:form id="formExcluirFavorito" >
+		        
+		        <p:outputPanel id="painelEditarFavorito" style="text-align:center;">
+		            
+		            <p:panelGrid  columns="2" columnClasses="label,value">
+		               
+		                <h:outputText value="Usuario:" />
+		                <h:outputText value="#{favoritoBean.favorito.id}" />
+		                
+		                <h:outputText value="História:" />
+		                <h:outputText value="#{favoritoBean.favorito.historia}" />
+
+		                
+		            </p:panelGrid>
+		            
+		            <h:panelGrid columns="2">
+				
+						<p:commandButton value="Excluir" oncomplete="PF('dlgExcluirFavorito').hide();" 
+							actionListener="#{favoritoBean.Excluir()}" 
+							update=":formTabela:tabelaFavoritos :msgGlobal"/>
+					
+						<p:commandButton value="Cancel" onclick="PF('dlgExcluirFavorito').hide();" />
+					
+					</h:panelGrid>
+		            
+		        </p:outputPanel>
+		        
+	        </h:form>
+	        
+    	</p:dialog>
+	
+		
+	</ui:define>
+	
+	<ui:define name="rodape">
+	   <ui:include src="/templates/rodape.xhtml" />
+	</ui:define>
+
+</ui:composition>
