@@ -155,8 +155,7 @@ public class Historia implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Historia [id=" + id + ", autor=" + autor + ", terminada=" + terminada + ", titulo="
-				+ titulo + ", sinopse=" + sinopse + "]";
+		return this.titulo+" de "+this.getAutor().getUsername();
 	}
 	
 	
